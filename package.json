@@ -10,6 +10,8 @@
     "commit": "cz"
   },
   "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "element-plus": "^2.2.29",
     "vue": "^3.2.45"
   },
   "devDependencies": {
@@ -17,11 +19,21 @@
     "commitizen": "^4.2.6",
     "cz-conventional-changelog": "^3.3.0",
     "prettier": "^2.8.1",
+    "sass": "^1.57.1",
     "vite": "^4.0.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "presets": [
+    "@babel/preset-env",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ]
 }

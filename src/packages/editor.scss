@@ -1,0 +1,91 @@
+.editor {
+  width: 100%;
+  height: 100%;
+  &-left,
+  &-right {
+    position: absolute;
+    width: 270px;
+    background: red;
+    top: 18px;
+    bottom: 0;
+  }
+  &-left {
+    left: 0;
+    &-item {
+      width: 250px;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      cursor: move;
+      user-select: none;
+      min-height: 100px;
+      position: relative;
+      > span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgb(96, 2055, 224);
+        color: #fff;
+        padding: 4px;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ccc;
+        opacity: 0.2;
+      }
+    }
+  }
+  &-right {
+    right: 0;
+  }
+  &-top {
+    position: absolute;
+    right: 280px;
+    left: 280px;
+    height: 80px;
+    background: blue;
+  }
+  &-contain {
+    padding: 80px 270px 0;
+    height: 100%;
+    box-sizing: border-box;
+    // background: yellow;
+    &-canvas {
+      overflow: scroll;
+      height: 100%;
+      &_content {
+        margin: 20px auto;
+        width: 750px;
+        height: 750px;
+        background-color: yellow;
+        position: relative;
+      }
+    }
+  }
+}
+.editor-block {
+  position: absolute;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.editor-block-focus {
+  &::after {
+    border: 1px dashed red;
+  }
+}
