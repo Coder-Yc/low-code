@@ -38,14 +38,16 @@ export default defineComponent({
      * 2. 实现获取焦点
      */
 
-    const { blockMouseDown, focusData, containMousedown } = useFocus(
-      data,
-      (e) => {
+    const { blockMouseDown, focusData, containMousedown, lastSelectBlock } =
+      useFocus(data, (e) => {
         //获取焦点后拖拽
         mouseDown(e)
-      }
+      })
+    const { mouseDown, remarkLine } = useBlockDragger(
+      focusData,
+      lastSelectBlock,
+      data
     )
-    const { mouseDown } = useBlockDragger(focusData)
 
     return () => (
       <div class="editor">
@@ -74,13 +76,20 @@ export default defineComponent({
               ref={containRef}
               onMousedown={containMousedown}
             >
-              {data.value.block.map((block) => (
+              {data.value.block.map((block, index) => (
                 <EditorBlock
                   class={block.focus ? 'editor-block-focus' : ''}
                   block={block}
-                  onMousedown={(e) => blockMouseDown(e, block)}
+                  onMousedown={(e) => blockMouseDown(e, block, index)}
                 ></EditorBlock>
               ))}
+
+              {remarkLine.x !== null && (
+                <div class="line-x" style={{ left: remarkLine.x + 'px' }}></div>
+              )}
+              {remarkLine.y !== null && (
+                <div class="line-y" style={{ top: remarkLine.y + 'px' }}></div>
+              )}
             </div>
           </div>
         </div>

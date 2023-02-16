@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export function useFocus(data, callback) {
   const clearMouseFocus = () => {
@@ -7,25 +7,35 @@ export function useFocus(data, callback) {
     })
   }
 
-  const blockMouseDown = (e, block) => {
+  const selectIndex = ref(-1)
+
+  //最后选择的块
+  const lastSelectBlock = computed(() => data.value.block[selectIndex.value])
+
+  const blockMouseDown = (e, block, index) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log(e)
+    // console.log(e)
     if (e.shiftKey) {
-      block.focus = !block.focus
+      if (focusData.value.focus.length <= 1) {
+        block.focus = true
+      } else {
+        block.focus = !block.focus
+      }
     } else {
       if (!block.focus) {
         clearMouseFocus()
         block.focus = true
-      } else {
-        block.focus = false
       }
     }
+    selectIndex.value = index
+    console.log(selectIndex.value)
     callback(e)
   }
 
   const containMousedown = () => {
     clearMouseFocus()
+    selectIndex.value = -1
   }
 
   const focusData = computed(() => {
@@ -39,6 +49,7 @@ export function useFocus(data, callback) {
   return {
     blockMouseDown,
     focusData,
-    containMousedown
+    containMousedown,
+    lastSelectBlock
   }
 }
