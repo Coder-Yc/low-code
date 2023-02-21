@@ -1,6 +1,7 @@
 import { defineComponent, computed, inject, ref } from 'vue'
 import { useMenuDragger } from './useMenuDragger'
 import { useFocus } from './useFocus'
+import { useCommand } from './useCommand'
 import './editor.scss'
 import EditorBlock from './editor-block'
 import { useBlockDragger } from './useBlockDragger'
@@ -49,6 +50,13 @@ export default defineComponent({
       data
     )
 
+    const { commands } = useCommand(data)
+
+    const buttons = [
+      { label: '撤销', icon: 'icon-back', handle: () => commands.undo() },
+      { label: '重做', icon: 'icon-forward', handle: () => commands.redo() }
+    ]
+
     return () => (
       <div class="editor">
         <div class="editor-left">
@@ -64,7 +72,16 @@ export default defineComponent({
             </div>
           ))}
         </div>
-        <div class="editor-top">菜单栏</div>
+        <div class="editor-top">
+          {buttons.map((btn, idx) => {
+            return (
+              <div class="editor-top-button" onClick={btn.handle}>
+                <i class={btn.icon}></i>
+                <span>{btn.label}</span>
+              </div>
+            )
+          })}
+        </div>
         <div class="editor-right">属性控制栏</div>
         <div class="editor-contain">
           {/* 产生滚动条 */}

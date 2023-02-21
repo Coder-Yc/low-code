@@ -1,16 +1,23 @@
 import { reactive } from 'vue'
+import { events } from './events'
 export function useBlockDragger(focusData, lastSelectBlock, data) {
   let dragState = {
     startX: 0,
-    startY: 0
+    startY: 0,
+    dragging: false
   }
   let remarkLine = reactive({
     x: null,
     y: null
   })
+  //移动中
   const mousemove = (e) => {
     let { clientX: moveX, clientY: moveY } = e
 
+    if (!dragState.dragging) {
+      dragState.dragging = true
+      events.emit('start')
+    }
     //计算当前元素最新的left和right值
     //鼠标移动后-鼠标移动前+left
     let left = moveX - dragState.startX + dragState.startLeft
@@ -49,11 +56,15 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
       block.left = dragState.startPos[index].left + durX
     })
   }
+  //移动后
   const mouseup = () => {
     document.removeEventListener('mousemove', mousemove)
     document.removeEventListener('mouseup', mouseup)
     remarkLine.x = null
     remarkLine.y = null
+    if (dragState.dragging) {
+      events.emit('end')
+    }
   }
 
   const mouseDown = (e) => {
@@ -62,6 +73,7 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
     dragState = {
       startX: e.clientX,
       startY: e.clientY,
+      dragging: false,
       startLeft: lastSelectBlock.value.left, //开始拖拽前的left和right值
       startTop: lastSelectBlock.value.top,
       startPos: focusData.value.focus.map(({ top, left }) => ({ top, left })),

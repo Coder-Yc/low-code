@@ -12,6 +12,7 @@
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "element-plus": "^2.2.29",
+    "mitt": "^3.0.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
