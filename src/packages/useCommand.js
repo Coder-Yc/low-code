@@ -11,9 +11,9 @@ export function useCommand(data) {
   }
   const registry = (command) => {
     state.commandArray.push(command)
-    state.commands[command.name] = () => {
+    state.commands[command.name] = (...args) => {
       //执行对应的回调函数
-      const { redo, undo } = command.execute()
+      const { redo, undo } = command.execute(...args)
       redo()
       if (!command.pushQueue) return
       let { queue, current } = state
@@ -87,6 +87,25 @@ export function useCommand(data) {
         },
         undo() {
           data.value = { ...data.value, block: before }
+        }
+      }
+    }
+  })
+  //历史记录模式
+  registry({
+    name: 'updateContainer',
+    pushQueue: 'true',
+    execute(newValue) {
+      let state = {
+        before: data.value,
+        after: newValue
+      }
+      return {
+        redo() {
+          data.value = state.after
+        },
+        undo() {
+          data.value = state.before
         }
       }
     }

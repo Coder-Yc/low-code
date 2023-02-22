@@ -5,6 +5,7 @@ import { useCommand } from './useCommand'
 import './editor.scss'
 import EditorBlock from './editor-block'
 import { useBlockDragger } from './useBlockDragger'
+import { $dialog } from '../components/Dialog'
 export default defineComponent({
   props: {
     modelValue: {
@@ -54,7 +55,33 @@ export default defineComponent({
 
     const buttons = [
       { label: '撤销', icon: 'icon-back', handle: () => commands.undo() },
-      { label: '重做', icon: 'icon-forward', handle: () => commands.redo() }
+      { label: '重做', icon: 'icon-forward', handle: () => commands.redo() },
+      {
+        label: '导入',
+        icon: 'icon-import',
+        handle: () => {
+          $dialog({
+            title: '导入json使用',
+            content: '',
+            footer: true,
+            onConfirm(text) {
+              // data.value = JSON.parse(text) //这样无法保留历史记录
+              commands.updateContainer(JSON.parse(text))
+            }
+          })
+        }
+      },
+      {
+        label: '导出',
+        icon: 'icon-export',
+        handle: () => {
+          $dialog({
+            title: '导出json使用',
+            content: JSON.stringify(data.value),
+            footer: false
+          })
+        }
+      }
     ]
 
     return () => (
