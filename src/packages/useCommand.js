@@ -1,7 +1,7 @@
 import { onUnmounted } from 'vue'
 import { events } from './events'
 
-export function useCommand(data) {
+export function useCommand(data, focusData) {
   const state = {
     current: -1,
     queue: [], //存放所有的操作命令
@@ -110,6 +110,69 @@ export function useCommand(data) {
       }
     }
   })
+
+  //置顶
+  registry({
+    name: 'placeTop',
+    pushQueue: true,
+    execute() {
+      //避免前后一致导致不更新数据
+      let before = JSON.parse(JSON.stringify(data.value.block))
+      let after = (() => {
+        let { focus, unfocused } = focusData.value
+        // console.log(unfocused)
+        let maxZIndex = unfocused.reduce((pre, block) => {
+          console.log(pre)
+          return Math.max(pre, block.zIndex)
+        }, 0)
+        focus.forEach((block) => {
+          block.zIndex = maxZIndex + 1
+        })
+        return data.value.block
+      })()
+      return {
+        redo() {
+          data.value = { ...data.value, block: after }
+        },
+        undo() {
+          data.value = { ...data.value, block: before }
+        }
+      }
+    }
+  })
+  //置地
+  registry({
+    name: 'placeBottom',
+    pushQueue: true,
+    execute() {
+      //避免前后一致导致不更新数据
+      let before = JSON.parse(JSON.stringify(data.value.block))
+      let after = (() => {
+        let { focus, unfocused } = focusData.value
+        // console.log(unfocused)
+        let minZIndex =
+          unfocused.reduce((pre, block) => {
+            return Math.min(pre, block.zIndex)
+          }, Infinity) - 1
+        if (minZIndex < 0) {
+          let dur = Math.abs(minZIndex)
+          minZIndex = 0
+          unfocused.forEach((block) => (block.zIndex += dur))
+        }
+        focus.forEach((block) => (block.zIndex = minZIndex))
+        return data.value.block
+      })()
+      return {
+        redo() {
+          data.value = { ...data.value, block: after }
+        },
+        undo() {
+          data.value = { ...data.value, block: before }
+        }
+      }
+    }
+  })
+
   const keyboardEvent = (() => {
     const keyCodes = {
       90: 'z',

@@ -51,7 +51,7 @@ export default defineComponent({
       data
     )
 
-    const { commands } = useCommand(data)
+    const { commands } = useCommand(data, focusData)
 
     const buttons = [
       { label: '撤销', icon: 'icon-back', handle: () => commands.undo() },
@@ -81,6 +81,16 @@ export default defineComponent({
             footer: false
           })
         }
+      },
+      {
+        label: '置顶',
+        icon: 'icon-place-top',
+        handle: () => commands.placeTop()
+      },
+      {
+        label: '置底',
+        icon: 'icon-place-bottom',
+        handle: () => commands.placeBottom()
       }
     ]
 
