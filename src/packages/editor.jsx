@@ -8,6 +8,7 @@ import { useBlockDragger } from './useBlockDragger'
 import { $dialog } from '../components/Dialog'
 import { $Dropdown, DropdownItem } from '../components/Dropdown'
 import { ElButton } from 'element-plus'
+import EditorOperator from './editor-operator'
 export default defineComponent({
   props: {
     modelValue: {
@@ -234,7 +235,12 @@ export default defineComponent({
               )
             })}
           </div>
-          <div class="editor-right">属性控制栏</div>
+          <div class="editor-right">
+            <EditorOperator
+              data={data.value}
+              block={lastSelectBlock}
+            ></EditorOperator>
+          </div>
           <div class="editor-contain">
             {/* 产生滚动条 */}
             <div class="editor-contain-canvas">
