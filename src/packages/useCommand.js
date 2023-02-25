@@ -111,6 +111,34 @@ export function useCommand(data, focusData) {
     }
   })
 
+  //单个block修改
+  registry({
+    name: 'updateBlock',
+    pushQueue: 'true',
+    execute(newBlock, oldBlock) {
+      let state = {
+        before: data.value.block,
+        after: (() => {
+          let blocks = [...data.value.block]
+          const index = data.value.block.indexOf(oldBlock)
+          if (index > -1) {
+            blocks.splice(index, 1, newBlock)
+          }
+
+          return blocks
+        })()
+      }
+      return {
+        redo() {
+          data.value = { ...data.value, block: state.after }
+        },
+        undo() {
+          data.value = { ...data.value, block: state.before }
+        }
+      }
+    }
+  })
+
   //置顶
   registry({
     name: 'placeTop',
@@ -162,6 +190,23 @@ export function useCommand(data, focusData) {
         focus.forEach((block) => (block.zIndex = minZIndex))
         return data.value.block
       })()
+      return {
+        redo() {
+          data.value = { ...data.value, block: after }
+        },
+        undo() {
+          data.value = { ...data.value, block: before }
+        }
+      }
+    }
+  })
+  registry({
+    name: 'delete',
+    pushQueue: true,
+    execute() {
+      //避免前后一致导致不更新数据
+      let before = JSON.parse(JSON.stringify(data.value.block))
+      let after = focusData.value.unfocused
       return {
         redo() {
           data.value = { ...data.value, block: after }

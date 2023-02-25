@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 
-export function useFocus(data, callback) {
+export function useFocus(data, previewRef, callback) {
   const clearMouseFocus = () => {
     data.value.block.forEach((block) => {
       block.focus = false
@@ -13,6 +13,7 @@ export function useFocus(data, callback) {
   const lastSelectBlock = computed(() => data.value.block[selectIndex.value])
 
   const blockMouseDown = (e, block, index) => {
+    if (previewRef.value) return
     e.preventDefault()
     e.stopPropagation()
     // console.log(e)
@@ -34,6 +35,7 @@ export function useFocus(data, callback) {
   }
 
   const containMousedown = () => {
+    if (previewRef.value) return
     clearMouseFocus()
     selectIndex.value = -1
   }
@@ -50,6 +52,7 @@ export function useFocus(data, callback) {
     blockMouseDown,
     focusData,
     containMousedown,
-    lastSelectBlock
+    lastSelectBlock,
+    clearMouseFocus
   }
 }
