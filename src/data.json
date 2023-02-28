@@ -4,8 +4,35 @@
     "height": 550
   },
   "block": [
-    { "top": 100, "left": 100, "zIndex": 1, "key": "text" },
-    { "top": 200, "left": 200, "zIndex": 1, "key": "input" },
-    { "top": 300, "left": 300, "zIndex": 1, "key": "button" }
+    {
+      "top": 100,
+      "left": 100,
+      "zIndex": 1,
+      "key": "text",
+      "props": {
+        "text": "我的文字",
+        "color": "red",
+        "size": "14px"
+      }
+    },
+    {
+      "top": 200,
+      "left": 200,
+      "zIndex": 1,
+      "key": "input",
+      "props": {},
+      "model": {}
+    },
+    {
+      "top": 300,
+      "left": 300,
+      "zIndex": 1,
+      "key": "button",
+      "props": {
+        "text": "我的按钮",
+        "type": "primary",
+        "size": "small"
+      }
+    }
   ]
 }

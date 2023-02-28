@@ -1,5 +1,5 @@
 <template>
-  <Editor v-model="state"></Editor>
+  <Editor v-model="state" :formData="formData"></Editor>
 </template>
 
 <script>
@@ -13,9 +13,16 @@ export default {
   components: { Editor },
   setup() {
     provide('config', config)
+
+    const formData = ref({
+      username: 'abc',
+      password: '123456'
+    })
+
     const state = ref(data)
     return {
-      state
+      state,
+      formData
     }
   }
 }

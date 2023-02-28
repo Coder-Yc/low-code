@@ -13,12 +13,16 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Object
+    },
+    formData: {
+      type: Object
     }
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
     const previewRef = ref(false)
     const editorRef = ref(true)
+    const { formData } = props
 
     const data = computed({
       get() {
@@ -194,6 +198,7 @@ export default defineComponent({
                 class={block.focus ? 'editor-block-focus' : ''}
                 class={previewRef.value ? 'editor-block-preview' : ''}
                 block={block}
+                formData={formData}
               ></EditorBlock>
             ))}
           </div>
@@ -239,6 +244,8 @@ export default defineComponent({
             <EditorOperator
               data={data.value}
               block={lastSelectBlock}
+              updateBlock={commands.updateBlock}
+              updateContainer={commands.updateContainer}
             ></EditorOperator>
           </div>
           <div class="editor-contain">
@@ -258,6 +265,7 @@ export default defineComponent({
                     block={block}
                     onMousedown={(e) => blockMouseDown(e, block, index)}
                     onContextmenu={(e) => blockContextMenu(e, block)}
+                    formData={formData}
                   ></EditorBlock>
                 ))}
 

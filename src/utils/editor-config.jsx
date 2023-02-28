@@ -25,7 +25,11 @@ const createSelectProp = (label, options) => ({
 editorConfig.register({
   label: '文本',
   preview: () => '预览文本',
-  render: () => '渲染文本',
+  render: ({ props }) => (
+    <span style={{ color: props.color, fontSize: props.size }}>
+      {props.text || '渲染文本'}
+    </span>
+  ),
   key: 'text',
   props: {
     text: createInputProp('文本内容'),
@@ -40,7 +44,11 @@ editorConfig.register({
 editorConfig.register({
   label: '按钮',
   preview: () => <ElButton>预览按钮</ElButton>,
-  render: () => <ElButton>渲染按钮</ElButton>,
+  render: ({ props }) => (
+    <ElButton type={props.type} size={props.size}>
+      {props.text || '渲染按钮'}
+    </ElButton>
+  ),
   key: 'button',
   props: {
     text: createInputProp('按钮内容'),
@@ -54,14 +62,16 @@ editorConfig.register({
     size: createSelectProp('按钮尺寸', [
       { label: '默认', value: '' },
       { label: '中等', value: 'medium' },
-      { label: '小', value: 'small' },
-      { label: '极小', value: 'mini' }
+      { label: '小', value: 'small' }
     ])
   }
 })
 editorConfig.register({
   label: '输入框',
   preview: () => <ElInput>预览输入</ElInput>,
-  render: () => <ElInput>渲染输入</ElInput>,
-  key: 'input'
+  render: ({ model }) => <ElInput {...model.default}>渲染输入</ElInput>,
+  key: 'input',
+  model: {
+    default: '绑定字段'
+  }
 })

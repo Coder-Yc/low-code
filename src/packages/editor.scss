@@ -149,3 +149,9 @@
   user-select: none;
   cursor: pointer;
 }
+
+.editor-right {
+  .el-form-item__content {
+    width: 200px;
+  }
+}
