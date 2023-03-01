@@ -22,7 +22,7 @@ export default defineComponent({
   setup(props, ctx) {
     const previewRef = ref(false)
     const editorRef = ref(true)
-    const { formData } = props
+    const { formData } = props 
 
     const data = computed({
       get() {
