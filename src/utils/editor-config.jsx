@@ -44,9 +44,17 @@ editorConfig.register({
 })
 editorConfig.register({
   label: '按钮',
+  resize: {
+    width: true,
+    height: true
+  },
   preview: () => <ElButton>预览按钮</ElButton>,
-  render: ({ props }) => (
-    <ElButton type={props.type} size={props.size}>
+  render: ({ props, size }) => (
+    <ElButton
+      type={props.type}
+      size={props.size}
+      style={{ width: size.width + 'px', height: size.height + 'px' }}
+    >
       {props.text || '渲染按钮'}
     </ElButton>
   ),
@@ -69,8 +77,15 @@ editorConfig.register({
 })
 editorConfig.register({
   label: '输入框',
+  resize: {
+    width: true
+  },
   preview: () => <ElInput>预览输入</ElInput>,
-  render: ({ model }) => <ElInput {...model.default}>渲染输入</ElInput>,
+  render: ({ model, size }) => (
+    <ElInput {...model.default} style={{ width: size.width + 'px' }}>
+      渲染输入
+    </ElInput>
+  ),
   key: 'input',
   model: {
     default: '绑定字段'
