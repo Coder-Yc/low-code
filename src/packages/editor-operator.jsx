@@ -9,6 +9,7 @@ import {
   ElSelect,
   ElOption
 } from 'element-plus'
+import TableEditor from './tableEditor'
 export default defineComponent({
   props: {
     block: { type: Object },
@@ -39,6 +40,7 @@ export default defineComponent({
         updateContainer({ ...data, container: state.editorData })
         console.log(data)
       } else {
+        console.log(state.editorData)
         updateBlock(state.editorData, block.value)
       }
     }
@@ -85,6 +87,12 @@ export default defineComponent({
                           )
                         })}
                       </ElSelect>
+                    ),
+                    table: () => (
+                      <TableEditor
+                        propConfig={propConfig}
+                        v-model={state.editorData.props[propName]}
+                      ></TableEditor>
                     )
                   }[propConfig.type]()}
                 </ElFormItem>
