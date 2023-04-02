@@ -8,6 +8,7 @@ import { useBlockDragger } from './useBlockDragger'
 import { $dialog } from '../components/Dialog'
 import { $Dropdown, DropdownItem } from '../components/Dropdown'
 import { ElButton } from 'element-plus'
+import { Menu } from '@element-plus/icons-vue'
 import EditorOperator from './editor-operator'
 export default defineComponent({
   props: {
@@ -22,7 +23,7 @@ export default defineComponent({
   setup(props, ctx) {
     const previewRef = ref(false)
     const editorRef = ref(true)
-    const { formData } = props 
+    const { formData } = props
 
     const data = computed({
       get() {
@@ -215,6 +216,10 @@ export default defineComponent({
       ) : (
         <div class="editor">
           <div class="editor-left">
+            <div class="icon-left">
+              <Menu class="icon" />
+              <span>组件列表</span>
+            </div>
             {config.componentList.map((component) => (
               <div
                 class="editor-left-item"
@@ -288,3 +293,4 @@ export default defineComponent({
       )
   }
 })
+  
