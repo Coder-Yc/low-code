@@ -147,3 +147,5 @@ editorConfig.register({
     default: '绑定字段'
   }
 })
+
+

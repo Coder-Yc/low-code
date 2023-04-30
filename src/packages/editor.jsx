@@ -10,6 +10,10 @@ import { $Dropdown, DropdownItem } from '../components/Dropdown'
 import { ElButton } from 'element-plus'
 import { Menu } from '@element-plus/icons-vue'
 import EditorOperator from './editor-operator'
+import dataJson from '../data.json'
+
+import { useRoute } from 'vue-router'
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -23,6 +27,8 @@ export default defineComponent({
   setup(props, ctx) {
     const previewRef = ref(false)
     const editorRef = ref(true)
+
+    const route = useRoute()
     const { formData } = props
 
     const data = computed({
@@ -33,7 +39,7 @@ export default defineComponent({
         ctx.emit('update:modelValue', JSON.parse(JSON.stringify(newValue)))
       }
     })
-    // console.log(data.value)
+    console.log(data)
 
     const containStyle = computed(() => ({
       width: data.value.container.width + 'px',
@@ -293,4 +299,3 @@ export default defineComponent({
       )
   }
 })
-  

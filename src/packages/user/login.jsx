@@ -1,6 +1,8 @@
 import { defineComponent, ref } from 'vue'
 import './LoginPage.scss'
-import { ElInput } from 'element-plus'
+import { ElInput, ElButton } from 'element-plus'
+import axios from 'axios'
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'LoginRegisterPage',
@@ -13,9 +15,37 @@ export default defineComponent({
     const registerPassword = ref('')
     const rePassword = ref('')
 
+    const router = useRouter()
+    const route = useRoute()
+
+    const formData = ref({
+      username: 'abc',
+      password: '123456',
+      start: 0,
+      end: 100
+    })
+
     function handleLogin() {
-      console.log(username.value, password.value, rememberMe.value)
+      console.log(username.value, password.value)
+      const u = username.value
+      const p = password.value
+      // console.log(u)
+      let userInfo
+      axios
+        .post('http://localhost:8080/login', { username: u, password: p })
+        .then((res) => {
+          if (res.status == '200') {
+            userInfo = res.data
+            router.push({
+              name: 'Block'
+              // params: {
+              //   formData
+              // }
+            })
+          }
+        })
     }
+    function handleRoute() {}
 
     function handleRegister() {
       console.log(registerUsername.value, registerPassword.value)
@@ -33,6 +63,7 @@ export default defineComponent({
                   type="text"
                   v-model={username.value}
                   placeholder="请输入账号"
+                  v-model={username.value}
                 ></ElInput>
               </div>
 
@@ -44,23 +75,27 @@ export default defineComponent({
                   type="password"
                   placeholder="请输入密码"
                   show-password="true"
+                  v-model={password.value}
                 ></ElInput>
               </div>
 
-              <div class="pwdbox">
+              {/* <div class="pwdbox">
                 <span class="iconfont">&#xe8b2;</span>
-                {/* <input  class="pwd"  id="re_password"  v-model={repwd} type="password"  placeholder="确认密码"> */}
+                <input  class="pwd"  id="re_password"  v-model={repwd} type="password"  placeholder="确认密码">
                 <ElInput
                   class="input"
                   type="rePassword"
                   placeholder="确认密码"
                   show-password="true"
                 ></ElInput>
-              </div>
+              </div> */}
 
-              <button type="primary" class="register_btn" onClick="register">
+              {/* <button type="primary" class="register_btn" onClick="register">
                 Register
-              </button>
+              </button> */}
+              <ElButton class="register_btn_" onClick={handleLogin}>
+                登陆
+              </ElButton>
             </div>
 
             <div class="background">

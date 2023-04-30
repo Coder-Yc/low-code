@@ -1,10 +1,19 @@
-import Login from '../packages/user/login.jsx'
 import { createRouter, createWebHashHistory } from 'vue-router'
+
+const Login = () => import('../packages/user/login.jsx')
+const Block = () => import('../packages/block.vue')
+
 const routes = [
-  { path: '/', redirect: '/home' },
+  { path: '/', redirect: '/login' },
   {
     path: '/login',
+    name: 'login',
     component: Login
+  },
+  {
+    path: '/Block',
+    name: 'Block',
+    component: Block
   }
 ]
 
