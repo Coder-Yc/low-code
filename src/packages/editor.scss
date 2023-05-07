@@ -8,6 +8,7 @@
   &-left,
   &-right {
     position: absolute;
+
     width: 270px;
     background: white;
     top: 18px;
@@ -15,6 +16,8 @@
   }
   &-left {
     left: 0;
+    top: 50px;
+    overflow: auto;
     &-item {
       width: 250px;
       margin: 20px auto;
@@ -53,6 +56,8 @@
   }
   &-right {
     right: 0;
+    top: 50px;
+    padding-top: 10px;
     background-color: white;
     // margin-left: 10px;
     display: flex;
@@ -60,6 +65,7 @@
   }
   &-top {
     position: absolute;
+    top: 20px;
     right: 280px;
     left: 280px;
     height: 80px;
@@ -85,7 +91,8 @@
     }
   }
   &-contain {
-    padding: 80px 270px 0;
+    // padding: 80px 270px 0;
+    margin-top: 20px;
     height: 100%;
     box-sizing: border-box;
     // background: yellow;
@@ -243,4 +250,21 @@
     margin-right: 8px;
     margin-left: 10px;
   }
+}
+.topTop {
+  display: flex;
+  height: 50px;
+}
+.userAvatar {
+  margin-top: 6px;
+}
+.userInfo {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.username {
+  margin-left: 20px;
 }

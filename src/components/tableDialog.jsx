@@ -37,7 +37,7 @@ const TableEditor = defineComponent({
       return (
         <ElDialog v-model={state.isShow}>
           {{
-            default: () => (
+            default: ({}) => (
               <div>
                 <div>
                   <ElButton onClick={add}>添加</ElButton>

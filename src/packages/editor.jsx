@@ -1,4 +1,4 @@
-import { defineComponent, computed, inject, ref } from 'vue'
+import { defineComponent, computed, inject, ref, h } from 'vue'
 import { useMenuDragger } from './useMenuDragger'
 import { useFocus } from './useFocus'
 import { useCommand } from './useCommand'
@@ -11,8 +11,10 @@ import { ElButton } from 'element-plus'
 import { Menu } from '@element-plus/icons-vue'
 import EditorOperator from './editor-operator'
 import dataJson from '../data.json'
-
+import axios from 'axios'
 import { useRoute } from 'vue-router'
+import { $tableDialogData } from '../components/tableData'
+import { ElDialog, ElAlert, ElAvatar, ElNotification } from 'element-plus'
 
 export default defineComponent({
   props: {
@@ -31,6 +33,8 @@ export default defineComponent({
     const route = useRoute()
     const { formData } = props
 
+    const dialogVisible = ref(false)
+
     const data = computed({
       get() {
         return props.modelValue
@@ -39,7 +43,6 @@ export default defineComponent({
         ctx.emit('update:modelValue', JSON.parse(JSON.stringify(newValue)))
       }
     })
-    console.log(data)
 
     const containStyle = computed(() => ({
       width: data.value.container.width + 'px',
@@ -128,6 +131,30 @@ export default defineComponent({
         }
       },
       {
+        label: '保存',
+        icon: 'icon-folder',
+        handle: () => {
+          const userID = localStorage.getItem('userId')
+          const reqData = {
+            userID,
+            container: data.value.container,
+            block: data.value.block
+          }
+          axios
+            .post('http://localhost:8080/save', reqData)
+            .then((res) => {
+              if (res.status == '200') {
+                ElNotification({
+                  title: '保存成功',
+                  message: '页面保存成功',
+                  type: 'success',
+                })
+              }
+            })
+          clearMouseFocus()
+        }
+      },
+      {
         label: '关闭',
         icon: 'icon-close',
         handle: () => {
@@ -136,6 +163,35 @@ export default defineComponent({
         }
       }
     ]
+
+    const handleInfo = () => {
+      // console.log('111');
+      const userId = localStorage.getItem('userId')
+      const username = localStorage.getItem('username')
+      let jsonData
+      axios
+        .post('http://localhost:8080/getData', { userID: userId })
+        .then((res) => {
+          if (res.status == '200') {
+            console.log(res);
+            jsonData = res.data
+            jsonData = jsonData.map((item, index) => {
+              return { ...item, username }
+            })
+            $tableDialogData({
+              data: jsonData,
+              onConfirm(newValue) {
+                console.log(newValue)
+                data.value = newValue
+              }
+            })
+          }
+        })
+    }
+
+    const formatData = (oriData) => {
+
+    }
 
     const blockContextMenu = (e, block) => {
       e.preventDefault()
@@ -221,11 +277,21 @@ export default defineComponent({
         </div>
       ) : (
         <div class="editor">
-          <div class="editor-left">
+          <div class='topTop'>
             <div class="icon-left">
               <Menu class="icon" />
               <span>组件列表</span>
             </div>
+            <div class='userInfo'>
+              <div class='userAvatar'>
+                <ElAvatar size="30" src={'https://lh3.googleusercontent.com/ogw/AOLn63GmOqCIQWoMqLk-mtIizViOmYd5deCtjx_jSJzO=s64-c-mo'} />
+              </div>
+              <div class='username' onClick={handleInfo}>
+                <span>Hi, {localStorage.getItem('username')}</span>
+              </div>
+            </div>
+          </div>
+          <div class="editor-left">
             {config.componentList.map((component) => (
               <div
                 class="editor-left-item"
@@ -250,7 +316,8 @@ export default defineComponent({
                 </div>
               )
             })}
-          </div>
+          </div >
+
           <div class="editor-right">
             <EditorOperator
               data={data.value}
@@ -295,7 +362,7 @@ export default defineComponent({
               </div>
             </div>
           </div>
-        </div>
+        </div >
       )
   }
 })

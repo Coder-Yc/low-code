@@ -35,13 +35,18 @@ export default defineComponent({
         .then((res) => {
           if (res.status == '200') {
             userInfo = res.data
+            const { id, username } = userInfo
+            localStorage.setItem('userId', id)
+            localStorage.setItem('username', username)
+
+
             router.push({
               name: 'Block'
             })
           }
         })
     }
-    function handleRoute() {}
+    function handleRoute() { }
 
     function handleRegister() {
       console.log(registerUsername.value, registerPassword.value)

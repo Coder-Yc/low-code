@@ -8,7 +8,6 @@ import { ref, provide } from 'vue'
 import Editor from './packages/editor.jsx'
 import Login from './packages/user/login.jsx'
 
-
 import { editorConfig as config } from './utils/editor-config'
 
 export default {
@@ -25,5 +24,6 @@ body,
 #app {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 </style>
