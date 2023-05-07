@@ -32,15 +32,12 @@ export default defineComponent({
         state.editorData = JSON.parse(JSON.stringify(data.container))
       } else {
         state.editorData = JSON.parse(JSON.stringify(block.value))
-        console.log(state.editorData.props)
       }
     }
     const apply = () => {
       if (!props.block.value) {
         updateContainer({ ...data, container: state.editorData })
-        console.log(data)
       } else {
-        console.log(state.editorData)
         updateBlock(state.editorData, block.value)
       }
     }

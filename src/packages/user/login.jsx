@@ -26,7 +26,6 @@ export default defineComponent({
     })
 
     function handleLogin() {
-      console.log(username.value, password.value)
       const u = username.value
       const p = password.value
       // console.log(u)
@@ -38,9 +37,6 @@ export default defineComponent({
             userInfo = res.data
             router.push({
               name: 'Block'
-              // params: {
-              //   formData
-              // }
             })
           }
         })

@@ -1,4 +1,4 @@
-import { ElButton, ElInput, ElOption, ElSelect } from 'element-plus'
+import { ElButton, ElInput, ElOption, ElSelect, ElImage } from 'element-plus'
 import Range from '../components/Range'
 function createEditorConfig() {
   const componentList = []
@@ -16,6 +16,9 @@ function createEditorConfig() {
 export let editorConfig = createEditorConfig()
 const createInputProp = (label) => ({ type: 'input', label })
 const createColorProp = (label) => ({ type: 'color', label })
+const createUrlProp = (label) => ({ type: 'src', label })
+const createWidthProp = (label) => ({ type: 'width', label })
+const createHeightProp = (label) => ({ type: 'height', label })
 const createSelectProp = (label, options) => ({
   type: 'select',
   label,
@@ -148,4 +151,29 @@ editorConfig.register({
   }
 })
 
-
+editorConfig.register({
+  label: '图片',
+  preview: () => (
+    <ElImage
+      style="width: 50px; height: 50px"
+      src="https://pic.616pic.com/ys_b_img/00/20/87/oUtZ5fjehb.jpg"
+    ></ElImage>
+  ),
+  render: ({ props }) => {
+    return (
+      <ElImage
+        style={{
+          width: props.width || '100px',
+          height: props.height || '100px'
+        }}
+        src={props.src || '../packages/user/1.png'}
+      ></ElImage>
+    )
+  },
+  key: 'picture',
+  props: {
+    width: createInputProp('图片宽度'),
+    height: createInputProp('图片高度'),
+    src: createInputProp('图片地址')
+  }
+})
