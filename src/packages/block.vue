@@ -16,7 +16,7 @@ export default {
     provide('config', config)
 
     const formData = ref({
-      username: 'abc',
+      username: 'ycyc',
       password: '123456',
       test: '123',
       test2: '456',

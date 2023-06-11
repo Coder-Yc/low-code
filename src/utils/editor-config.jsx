@@ -64,6 +64,9 @@ editorConfig.register({
   key: 'button',
   props: {
     text: createInputProp('按钮内容'),
+    onClick: createInputProp('事件名称'),
+    url: createInputProp('请求网址'),
+    data: createInputProp('请求参数消息'),
     type: createSelectProp('按钮类型', [
       { label: '基础', value: 'primary' },
       { label: '成功', value: 'success' },

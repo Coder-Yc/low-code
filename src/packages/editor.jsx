@@ -15,6 +15,8 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { $tableDialogData } from '../components/tableData'
 import { ElDialog, ElAlert, ElAvatar, ElNotification } from 'element-plus'
+// import shell from 'shelljs';
+// import message from "../myApp/src/pages/message";
 
 export default defineComponent({
   props: {
@@ -154,6 +156,7 @@ export default defineComponent({
           clearMouseFocus()
         }
       },
+    
       {
         label: '关闭',
         icon: 'icon-close',
@@ -295,6 +298,7 @@ export default defineComponent({
             {config.componentList.map((component) => (
               <div
                 class="editor-left-item"
+
                 draggable
                 onDragstart={(e) => dragstart(e, component)}
                 onDragend={dragend}
